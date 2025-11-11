@@ -46,13 +46,13 @@ stages:
     #       terraform -version
 
     # Install Azure CLI
-    - task: Bash@3
-      displayName: 'Install Azure CLI'
-      inputs:
-        targetType: 'inline'
-        script: |
-          curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-          az --version
+    # - task: Bash@3
+    #   displayName: 'Install Azure CLI'
+    #   inputs:
+    #     targetType: 'inline'
+    #     script: |
+    #       curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+    #       az --version
 
     # Run Terraform commands
     - task: AzureCLI@2
@@ -61,7 +61,7 @@ stages:
         scriptType: bash
         scriptLocation: inlineScript
         inlineScript: |
-          cd epicbook-cap-infra
+          cd epicbook-cap-infra/terraform
           
           echo "Listing files in Terraform directory for debugging..."
           ls -la
