@@ -56,18 +56,16 @@ stages:
 
     # Run Terraform commands
     - task: AzureCLI@2
+      displayName: 'Terraform Init, Plan, and Apply'
       inputs:
         azureSubscription: 'epicbook-connection'
         scriptType: bash
         scriptLocation: inlineScript
+        workingDirectory: $(System.DefaultWorkingDirectory)/terraform
         inlineScript: |
-          cd epicbook-cap-infra/terraform
-          
-          echo "Listing files in Terraform directory for debugging..."
-          ls -la
+          set -e
 
-          echo "Initializing Terraform with debug logging..."
-          export TF_LOG=DEBUG
+          echo "Initializing Terraform..."
           terraform init -input=false
 
           echo "Planning Infrastructure..."
