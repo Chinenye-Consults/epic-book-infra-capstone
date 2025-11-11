@@ -61,7 +61,7 @@ stages:
         azureSubscription: 'epicbook-connection'
         scriptType: bash
         scriptLocation: inlineScript
-        workingDirectory: $(System.DefaultWorkingDirectory)
+        workingDirectory: $(System.DefaultWorkingDirectory)/terraform
         inlineScript: |
           set -e
 
