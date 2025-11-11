@@ -1,0 +1,75 @@
+trigger:
+  branches:
+    include:
+      - main
+
+stages:
+- stage: Terraform
+  displayName: 'Provision Infrastructure'
+  jobs:
+  - job: Terraform_Apply
+    displayName: 'Terraform Apply'
+    pool:
+      name: 'ubuntu-latest'
+
+    steps:
+    # Checkout your repo
+    - checkout: self
+
+    # Download SSH public key from Azure DevOps Secure Files
+    - task: DownloadSecureFile@1
+      name: download_ssh_key
+      inputs:
+        secureFile: 'id_ed25519.pub'     # name of your uploaded public key file in Secure Files
+
+    # Place SSH key in the expected directory for Terraform
+    - script: |
+        echo "Setting up SSH key for Terraform..."
+        mkdir -p ~/.ssh
+        cp $(download_ssh_key.secureFilePath) ~/.ssh/id_ed25519.pub
+        chmod 600 ~/.ssh/id_ed25519.pub
+        echo "SSH public key ready for Terraform use."
+        ls -l ~/.ssh
+      displayName: 'Prepare SSH Public Key'
+
+    # Install Terraform
+    - task: Bash@3
+      displayName: 'Install Terraform'
+      inputs:
+        targetType: 'inline'
+        script: |
+          sudo apt-get update -y
+          sudo apt-get install -y wget unzip
+          wget https://releases.hashicorp.com/terraform/1.5.7/terraform_1.5.7_linux_amd64.zip
+          unzip terraform_1.5.7_linux_amd64.zip
+          sudo mv terraform /usr/local/bin/
+          terraform -version
+
+    # Install Azure CLI
+    - task: Bash@3
+      displayName: 'Install Azure CLI'
+      inputs:
+        targetType: 'inline'
+        script: |
+          curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+          az --version
+
+    # Run Terraform commands
+    - task: AzureCLI@2
+      displayName: 'Terraform Init, Plan, and Apply'
+      inputs:
+        azureSubscription: 'epicbook-service'
+        scriptType: bash
+        scriptLocation: inlineScript
+        workingDirectory: $(System.DefaultWorkingDirectory)
+        inlineScript: |
+          set -e
+
+          echo "Initializing Terraform..."
+          terraform init -input=false
+
+          echo "Planning Infrastructure..."
+          terraform plan -input=false
+
+          echo "Applying Infrastructure..."
+          terraform apply -auto-approve -input=false
