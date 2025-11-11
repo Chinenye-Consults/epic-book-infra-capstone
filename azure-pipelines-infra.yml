@@ -33,17 +33,17 @@ stages:
       displayName: 'Prepare SSH Public Key'
 
     # Install Terraform
-    - task: Bash@3
-      displayName: 'Install Terraform'
-      inputs:
-        targetType: 'inline'
-        script: |
-          sudo apt-get update -y
-          sudo apt-get install -y wget unzip
-          wget https://releases.hashicorp.com/terraform/1.5.7/terraform_1.5.7_linux_amd64.zip
-          unzip terraform_1.5.7_linux_amd64.zip
-          sudo mv terraform /usr/local/bin/
-          terraform -version
+    # - task: Bash@3
+    #   displayName: 'Install Terraform'
+    #   inputs:
+    #     targetType: 'inline'
+    #     script: |
+    #       sudo apt-get update -y
+    #       sudo apt-get install -y wget unzip
+    #       wget https://releases.hashicorp.com/terraform/1.5.7/terraform_1.5.7_linux_amd64.zip
+    #       unzip terraform_1.5.7_linux_amd64.zip
+    #       sudo mv terraform /usr/local/bin/
+    #       terraform -version
 
     # Install Azure CLI
     - task: Bash@3
