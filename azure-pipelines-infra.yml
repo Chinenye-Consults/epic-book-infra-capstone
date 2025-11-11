@@ -10,7 +10,7 @@ stages:
   - job: Terraform_Apply
     displayName: 'Terraform Apply'
     pool:
-    vmImage: 'ubuntu-latest'
+      vmImage: 'ubuntu-latest'
 
     steps:
     # Checkout your repo
