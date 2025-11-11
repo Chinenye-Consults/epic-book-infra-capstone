@@ -10,7 +10,7 @@ stages:
   - job: Terraform_Apply
     displayName: 'Terraform Apply'
     pool:
-      vmImage: 'ubuntu-latest'
+      name: 'linux-hosted-agent'
 
     steps:
     # Checkout your repo
