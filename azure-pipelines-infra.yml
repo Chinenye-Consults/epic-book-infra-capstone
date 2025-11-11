@@ -65,7 +65,11 @@ stages:
         inlineScript: |
           set -e
 
-          echo "Initializing Terraform..."
+          echo "Listing files in Terraform directory for debugging..."
+          ls -la
+
+          echo "Initializing Terraform with debug logging..."
+          export TF_LOG=DEBUG
           terraform init -input=false
 
           echo "Planning Infrastructure..."
