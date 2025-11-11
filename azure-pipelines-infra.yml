@@ -58,7 +58,7 @@ stages:
     - task: AzureCLI@2
       displayName: 'Terraform Init, Plan, and Apply'
       inputs:
-        azureSubscription: 'Azure subscription 1'
+        azureSubscription: 'epicbook-connection'
         scriptType: bash
         scriptLocation: inlineScript
         workingDirectory: $(System.DefaultWorkingDirectory)
