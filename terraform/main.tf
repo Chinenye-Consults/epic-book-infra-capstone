@@ -52,7 +52,7 @@ resource "azurerm_network_security_group" "nsg" {
   }
 
   security_rule {
-    name                       = "HTTP"
+    name                       = "HTTP-80"
     priority                   = 101
     direction                  = "Inbound"
     access                     = "Allow"
@@ -64,7 +64,7 @@ resource "azurerm_network_security_group" "nsg" {
   }
 
   security_rule {
-    name                       = "HTTP"
+    name                       = "HTTP-3000"
     priority                   = 102
     direction                  = "Inbound"
     access                     = "Allow"
